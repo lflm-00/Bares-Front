@@ -5,7 +5,6 @@ import noteService from './services/notes'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm.js'
 import NoteForm from './components/NoteForm.js'
-import Card from './components/Card.js'
 const App = () => {
   const [notes, setNotes] = useState([]) 
   
@@ -135,8 +134,7 @@ const App = () => {
           />
         )}
       </ul> 
-    </div>,
-    <Card />
+    </div>
   )
 
   
