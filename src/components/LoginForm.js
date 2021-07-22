@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from '@material-ui/core';
 import Togglable from './Togglable.js'
 import PropTypes from 'prop-types'
 
@@ -12,7 +13,9 @@ export default function LoginForm ({handleSubmit, ...props}) {
             value={props.username}
             name='Username'
             placeholder='Username'
+            required = {true}
             onChange={props.handleUsernameChange}
+            
           />
         </div>
         <div>
@@ -21,12 +24,13 @@ export default function LoginForm ({handleSubmit, ...props}) {
             value={props.password}
             name='Password'
             placeholder='Password'
+            required = {true}
             onChange={props.handlePasswordChange}
           />
         </div>
-        <button id='form-login-button'>
+        <Button color="primary" id='form-login-button'>
           Login
-        </button>
+        </Button>
       </form>
     </Togglable>
   )

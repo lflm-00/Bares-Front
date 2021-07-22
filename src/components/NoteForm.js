@@ -34,11 +34,7 @@ export default function NoteForm ({addNote, handleLogout}) {
         />
         <button type="submit">save</button>
       </form>
-      <div>
-        <button onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
+      
     </Togglable>
   )
 }
