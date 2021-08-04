@@ -97,7 +97,7 @@ const App = () => {
 
   return (
     <div>
-      {user.USER_ROLE === "usuario" ? <h1>user</h1> : user.USER_ROLE === "admin" ? <h1>Admin</h1> : <h1>Invitado</h1>}
+      {/* {user.USER_ROLE === "usuario" ? <h1>user</h1> : user.USER_ROLE === "admin" ? <h1>Admin</h1> : <h1>Invitado</h1>} */}
 
       <Notification message={errorMessage} />
 
