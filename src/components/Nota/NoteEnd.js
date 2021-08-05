@@ -6,17 +6,17 @@ import loginService from "./services/login";
 import LoginForm from "./components/LoginForm.js";
 import NoteForm from "./components/NoteForm.js";
 
-const App = () => {
+const NoteEnd = () => {
   const [notes, setNotes] = useState([]);
 
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const [username, setUsername] = useState("");
-  const [USER_ROLE , setUSER_ROLE] = useState("");
+  const [USER_ROLE, setUSER_ROLE] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("");
-  const [email , setEmail] = useState("")
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     noteService.getAll().then((initialNotes) => {
@@ -73,9 +73,9 @@ const App = () => {
         USER_ROLE,
         username,
         password,
-        email
+        email,
       });
-      
+      console.log(user);
       window.localStorage.setItem("loggedNoteAppUser", JSON.stringify(user));
 
       noteService.setToken(user.token);
@@ -84,7 +84,7 @@ const App = () => {
       setUsername("");
       setPassword("");
       setUSER_ROLE("");
-      setEmail("")
+      setEmail("");
     } catch (e) {
       setErrorMessage(alert("Wrong Credentials"));
       setTimeout(() => {
@@ -97,19 +97,23 @@ const App = () => {
 
   return (
     <div>
-      {/* {user.USER_ROLE === "usuario" ? <h1>user</h1> : user.USER_ROLE === "admin" ? <h1>Admin</h1> : <h1>Invitado</h1>} */}
+      {user.USER_ROLE === "usuario" ? (
+        <h1>user</h1>
+      ) : user.USER_ROLE === "admin" ? (
+        <h1>Admin</h1>
+      ) : (
+        <h1>Invitado</h1>
+      )}
 
       <Notification message={errorMessage} />
 
       {user ? (
-        <NoteForm addNote={addNote} handleLogout={handleLogout}
-         /> ,
-         <div>
-        <button onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
-         
+        ((<NoteForm addNote={addNote} handleLogout={handleLogout} />),
+        (
+          <div>
+            <button onClick={handleLogout}>Logout</button>
+          </div>
+        ))
       ) : (
         <LoginForm
           username={username}
@@ -120,12 +124,16 @@ const App = () => {
         />
       )}
 
-    { user.USER_ROLE === "admin" ?  <div>
-         <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? "important" : "all"}
-        </button>
-      </div> : "" }
-     <ul>
+      {user.USER_ROLE === "admin" ? (
+        <div>
+          <button onClick={() => setShowAll(!showAll)}>
+            show {showAll ? "important" : "all"}
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
+      <ul>
         {notesToShow.map((note, i) => (
           <Note
             key={i}
@@ -133,10 +141,9 @@ const App = () => {
             toggleImportance={() => toggleImportanceOf(note.id)}
           />
         ))}
-      </ul> 
-      
-    </div> 
+      </ul>
+    </div>
   );
 };
 
-export default App;
+export default NoteEnd;
