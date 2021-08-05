@@ -12,6 +12,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import PropTypes from 'prop-types'
 
 //copyRight
 function Copyright() {
@@ -49,41 +50,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn({handleSubmit, ...props}) {
   const classes = useStyles();
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        <Avatar >
           {/* {LockOutlinedIcon} */}
         </Avatar>
         <Typography component="h1" variant="h4">
           Ingresar
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Correo Electronico"
+            value={props.username}
+            id="username"
+            label="Nombre de usuario"
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={props.handleUsernameChange}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
+            value={props.password}
             name="password"
             label="Contraseña"
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={props.handlePasswordChange}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -117,4 +122,10 @@ export default function SignIn() {
       </Box>
     </Container>
   );
+
+  SignIn.propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
+    username: PropTypes.string,
+  
+  }
 }
