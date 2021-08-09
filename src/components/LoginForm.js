@@ -40,10 +40,16 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
+
+  },
+  small: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
   },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+    
   },
   submit: {
     margin: theme.spacing(5, 0, 2),
@@ -57,7 +63,7 @@ export default function SignIn({handleSubmit, ...props}) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar >
+        <Avatar  src="http://pa1.narvii.com/6117/7abf6ce3d25dc0f434a345727e789996a3eac775_hq.gif" className={classes.small}>
           {/* {LockOutlinedIcon} */}
         </Avatar>
         <Typography component="h1" variant="h4">
@@ -123,9 +129,10 @@ export default function SignIn({handleSubmit, ...props}) {
     </Container>
   );
 
-  SignIn.propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
-    username: PropTypes.string,
-  
-  }
+
+}
+SignIn.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  username: PropTypes.string,
+
 }
