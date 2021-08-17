@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Note from "./components/Note";
-import Notification from "./components/Notification";
-import noteService from "./services/notes";
-import loginService from "./services/login";
-import LoginForm from "./components/LoginForm.js";
-import NoteForm from "./components/NoteForm.js";
+import Note from "../Note";
+import Notification from "../Notification";
+import noteService from "../../services/notes";
+import loginService from "../../services/login";
+import LoginForm from "../LoginForm";
+import NoteForm from "../NoteForm";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
-const NoteEnd = () => {
+
+const AppEnd = () => {
   const [notes, setNotes] = useState([]);
 
   const [showAll, setShowAll] = useState(true);
@@ -75,7 +77,7 @@ const NoteEnd = () => {
         password,
         email,
       });
-      console.log(user);
+
       window.localStorage.setItem("loggedNoteAppUser", JSON.stringify(user));
 
       noteService.setToken(user.token);
@@ -86,7 +88,16 @@ const NoteEnd = () => {
       setUSER_ROLE("");
       setEmail("");
     } catch (e) {
-      setErrorMessage(alert("Wrong Credentials"));
+      setErrorMessage(
+        <div>
+          <Alert severity="error">
+            <AlertTitle>
+              <h1>Error</h1>
+            </AlertTitle>
+            Wrong Credentials
+          </Alert>
+        </div>
+      );
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);
@@ -96,54 +107,50 @@ const NoteEnd = () => {
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
 
   return (
-    <div>
-      {user.USER_ROLE === "usuario" ? (
-        <h1>user</h1>
-      ) : user.USER_ROLE === "admin" ? (
-        <h1>Admin</h1>
-      ) : (
-        <h1>Invitado</h1>
-      )}
+    (
+      <div>
+        {user?.USER_ROLE === "usuario" ? <h1>user</h1> : user?.USER_ROLE === "admin" ? <h1>Admin</h1> : ""}
 
-      <Notification message={errorMessage} />
+        <Notification message={errorMessage} />
 
-      {user ? (
-        ((<NoteForm addNote={addNote} handleLogout={handleLogout} />),
-        (
-          <div>
-            <button onClick={handleLogout}>Logout</button>
-          </div>
-        ))
-      ) : (
-        <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleSubmit={handleLogin}
-        />
-      )}
-
-      {user.USER_ROLE === "admin" ? (
-        <div>
-          <button onClick={() => setShowAll(!showAll)}>
-            show {showAll ? "important" : "all"}
-          </button>
-        </div>
-      ) : (
-        ""
-      )}
-      <ul>
-        {notesToShow.map((note, i) => (
-          <Note
-            key={i}
-            note={note}
-            toggleImportance={() => toggleImportanceOf(note.id)}
+        {user ? (
+          ((<NoteForm addNote={addNote} handleLogout={handleLogout} />),
+          (
+            <div>
+              <button onClick={handleLogout}>Logout</button>
+            </div>
+          ))
+        ) : (
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
           />
-        ))}
-      </ul>
-    </div>
+        )}
+
+        {user.USER_ROLE === "admin" ? (
+          <div>
+            <button onClick={() => setShowAll(!showAll)}>
+              show {showAll ? "important" : "all"}
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
+        <ul>
+          {notesToShow.map((note, i) => (
+            <Note
+              key={i}
+              note={note}
+              toggleImportance={() => toggleImportanceOf(note.id)}
+            />
+          ))}
+        </ul>
+      </div>
+    )
   );
 };
 
-export default NoteEnd;
+export default AppEnd;
