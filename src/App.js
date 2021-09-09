@@ -1,43 +1,48 @@
-import React, { useState, useEffect } from "react";
-import AppEnd from "./components/Nota/NoteEnd";
-import { BrowserRouter as Router, Link , Switch , Route } from "react-router-dom";
+import React from "react";
+import AppEnd from "./components/Nota/AppEnd";
+
+import Register from "../src/components/Register";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import Home from "./components/User/Home";
+import AuthProvider from "./auth/AuthProvider";
+import PrivateRoute from "./auth/PrivateRoute";
+import NotFound from "./components/User/NotFound";
+import PublicRoute from "./auth/PublicRoute";
+import Developers from "./components/Developers";
 
 
 const App = () => {
-  
 
-return ( 
-  <Router>
-    
-
-
-        {/*
-          A <Switch> looks through all its children <Route>
-          elements and renders the first one whose path
-          matches the current URL. Use a <Switch> any time
-          you have multiple routes, but you want only one
-          of them to render at a time
-        */}
-        <Switch>
-          <Route exact path="/">
-            <AppEnd />
-          </Route>
-          <Route exact path="/register">
-            <Register />
-          </Route>
-        </Switch>
-     
-    </Router>
-
-)
-function Register() {
   return (
-    <div>
-      <h2>register</h2>
-    </div>
+    <AuthProvider >
+      <Router>
+        <Switch>
+          <Route exact path="/signin">
+            <Redirect to="/" />
+          </Route>
+          <Route exact path="/login">
+            <Redirect to="/" />
+          </Route>
+
+          /* Public routes for unauthenticated users */
+          <PublicRoute exact path="/register" component={Register} />
+          <PublicRoute exact path="/developers" component={Developers} />
+
+          <Route exact path="/" component={AppEnd} AppEnd />
+
+          <PrivateRoute exact path="/home" component={Home} />
+          <PrivateRoute path="*" component={NotFound} />
+
+
+        </Switch>
+      </Router>
+    </AuthProvider>
   );
-}
-  
 };
 
 export default App;
