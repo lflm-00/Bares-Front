@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 
 import Notification from "../Notification";
-import noteService from "../../services/notes";
 import loginService from "../../services/login";
 import LoginForm from "../LoginForm";
 import { Alert, AlertTitle } from "@material-ui/lab";
@@ -12,10 +11,8 @@ import Home from "../User/Home";
 const AppEnd = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [username, setUsername] = useState("");
-  const [USER_ROLE, setUSER_ROLE] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("");
-  const [email, setEmail] = useState("");
 
   const handleLogout = () => {
     setUser("");
@@ -39,7 +36,6 @@ const AppEnd = () => {
       const user = await loginService.login({
         username,
         password,
-        email,
       });
    
       
@@ -48,8 +44,6 @@ const AppEnd = () => {
       setUser(user);
       setUsername("");
       setPassword("");
-      setUSER_ROLE("");
-      setEmail("");
       
     } catch (e) {
       setErrorMessage(
@@ -58,7 +52,7 @@ const AppEnd = () => {
             <AlertTitle>
               <h1>Error</h1>
             </AlertTitle>
-            Wrong Credentials
+            {console.log(e)}
           </Alert>
         </div>
       );

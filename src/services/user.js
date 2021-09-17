@@ -6,8 +6,14 @@ const baseUrl = 'http://localhost:3001/api/users/'
 // const baseUrlLuis = 'http://localhost:3001/api/users/prueba'
 
 const userRegister = async credentials => {
+  try {
     const { data } = await axios.post(baseUrl, credentials)
     return data
+  } catch (error) {
+    console.log([error.response.status]);
+    return error.response;
+  }
+   
   }
 
 const getAllUsers = () =>{
@@ -15,9 +21,9 @@ const getAllUsers = () =>{
   return request.then(response => response.data)
 }
 
-const getUser = (id) =>{
+const getUser = (token) =>{
   
-  const request = axios.get(baseUrl+id)
+  const request = axios.get(baseUrl+token)
   return request.then(response => response.data)
 }
 

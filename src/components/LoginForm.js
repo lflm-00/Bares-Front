@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 // import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -49,21 +49,21 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
-    
+
   },
   submit: {
     margin: theme.spacing(5, 0, 2),
   },
 }));
 
-export default function SignIn({handleSubmit, ...props}) {
+export default function SignIn({ handleSubmit, ...props }) {
   const classes = useStyles();
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar  src="http://pa1.narvii.com/6117/7abf6ce3d25dc0f434a345727e789996a3eac775_hq.gif" className={classes.small}>
+        <Avatar src="http://pa1.narvii.com/6117/7abf6ce3d25dc0f434a345727e789996a3eac775_hq.gif" className={classes.small}>
           {/* {LockOutlinedIcon} */}
         </Avatar>
         <Typography component="h1" variant="h4">
@@ -78,8 +78,8 @@ export default function SignIn({handleSubmit, ...props}) {
             value={props.username}
             id="username"
             label="Nombre de usuario"
-            name="email"
-            autoComplete="email"
+            name="username"
+            autoComplete="username"
             autoFocus
             onChange={props.handleUsernameChange}
           />

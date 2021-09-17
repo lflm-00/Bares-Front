@@ -3,7 +3,6 @@ import userService from "../../services/user";
 
 
 export default function Home() {
-  const [allUsers, setAllUsers] = useState([]);
   const [user, setUser] = useState([
     JSON.parse(window.localStorage.getItem("loggedAppUser")) || null,
   ]);
@@ -14,9 +13,9 @@ export default function Home() {
       const user = JSON.parse(loggedUserJSON);
 
       setUser(user);
-      const id = user.id;
+      const token = user.token;
 
-      userService.getUser(id).then((initialUser) => {
+      userService.getUser(token).then((initialUser) => {
         setUser(initialUser);
       });
 

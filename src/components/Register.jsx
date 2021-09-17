@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Container, Grid, Paper, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import fondo from "../img/fondo3.jpg";
 import userService from "../services/user";
 import Notification from "./Notification";
@@ -56,7 +56,7 @@ const Register = () => {
     event.preventDefault();
 
 
-    console.log(event.name);
+
     try {
       const user = await userService.userRegister({
         name,
@@ -65,29 +65,28 @@ const Register = () => {
         password,
       });
 
-      
-      
-      user
+
+
+      user.status === 400
         ? setErrorMessage(
-            <div>
-              <Alert severity="alert">
-                <AlertTitle>
-                  <h1>Creado</h1>
-                </AlertTitle>
-                Exitosamente
-              </Alert>
-            </div>
-          )
-        : setErrorMessage(
-            <div>
-              <Alert severity="error">
-                <AlertTitle>
-                  <h1>Error</h1>
-                </AlertTitle>
-                Wrong Credentials
-              </Alert>
-            </div>
-          );
+          <div>
+            <Alert severity="error">
+              <AlertTitle>
+                <h1>Error</h1>
+              </AlertTitle>
+              {user.data}
+            </Alert>
+          </div>
+        )
+        : setErrorMessage(<div>
+          <Alert severity="successful">
+            <AlertTitle>
+              <h1>Creado</h1>
+            </AlertTitle>
+            {user.data}
+          </Alert>
+        </div>
+        );
       setUsername("");
       setPassword("");
       setEmail("");
@@ -100,9 +99,9 @@ const Register = () => {
         <div>
           <Alert severity="error">
             <AlertTitle>
-              <h1>Error</h1>
+              <h1>{e}</h1>
             </AlertTitle>
-            Wrong Credentials
+            {e.message}
           </Alert>
         </div>
       );
