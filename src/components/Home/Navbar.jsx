@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import {
   alpha,
   AppBar,
@@ -6,17 +7,33 @@ import {
   makeStyles,
   Toolbar,
   Typography,
+  IconButton,
+  Drawer,
+  ListItemText,
 } from "@material-ui/core";
-import { Cancel, Mail, Notifications, Search } from "@material-ui/icons";
+import MenuIcon from "@material-ui/icons/Menu";
+import {
+  Cancel,
+  EmojiEvents,
+  EventAvailable,
+  Explore,
+  Mail,
+  Map,
+  Notifications,
+  Person,
+  Search,
+  Settings,
+} from "@material-ui/icons";
 import { useState, useEffect } from "react";
 import userService from "../../services/user";
+import { Box } from "@mui/system";
+import { Divider, List, ListItem, SwipeableDrawer } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
     display: "flex",
     justifyContent: "space-between",
   },
-
   logoLg: {
     display: "none",
     [theme.breakpoints.up("sm")]: {
@@ -70,9 +87,11 @@ const useStyles = makeStyles((theme) => ({
     display: (props) => (props.open ? "none" : "flex"),
   },
 }));
-
+//
 export default function Navbar() {
+  const [open1, setOpen1] = useState(false);
   const [open, setOpen] = useState(false);
+
   const [user, setUser] = useState([
     JSON.parse(window.localStorage.getItem("loggedAppUser")) || null,
   ]);
@@ -87,7 +106,6 @@ export default function Navbar() {
       userService.getUser(token).then((initialUser) => {
         setUser(initialUser);
       });
-
       // noteService.setToken(user.token);
     }
   }, []);
@@ -96,12 +114,86 @@ export default function Navbar() {
   return (
     <AppBar position="fixed">
       <Toolbar className={classes.toolbar}>
+        <IconButton
+          onClick={() => setOpen1(true)}
+          edge="start"
+          aria-label="menu"
+        >
+          <MenuIcon />
+        </IconButton>
+        {/*  boton hamburgesa */}
+        <SwipeableDrawer
+          anchor="left"
+          open={open1}
+          onClose={() => setOpen1(false)}
+          onOpen={() => {}}
+        >
+          <div>
+            <Box textAlign="center" p={2}>
+              Bienvenido (usuario)
+            </Box>
+            <Divider />
+            <List>
+              <div className={classes.item}>
+                <ListItem button onClick={() => router.push("/Mi Perfil")}>
+                  <Person color="primary" className={classes.icon} />
+                  <ListItemText primary={"Mi Perfil"} />
+                </ListItem>
+              </div>
+
+              <div className={classes.item}>
+                <ListItem button onClick={() => router.push("/Explorar")}>
+                  <Explore color="primary" className={classes.icon} />
+                  <ListItemText primary={"Explorar"} />
+                </ListItem>
+              </div>
+
+              <div className={classes.item}>
+                <ListItem button onClick={() => router.push("/Ubicaciones")}>
+                  <Map color="primary" className={classes.icon} />
+                  <ListItemText primary={"Ubicaciones"} />
+                </ListItem>
+              </div>
+
+              <div className={classes.item}>
+                <ListItem button onClick={() => router.push("/Eventos")}>
+                  <EventAvailable color="primary" className={classes.icon} />
+                  <ListItemText primary={"Eventos"} />
+                </ListItem>
+              </div>
+              <div className={classes.item}>
+                <ListItem
+                  button
+                  onClick={() => router.push("/Mejores Calificados")}
+                >
+                  <EmojiEvents color="primary" className={classes.icon} />
+                  <ListItemText primary={"Mejores Calificados"} />
+                </ListItem>
+              </div>
+              <div className={classes.item}>
+                <ListItem button onClick={() => router.push("/Configuracion")}>
+                  <Settings color="primary" className={classes.icon} />
+                  <ListItemText primary={"Configuracion"} />
+                </ListItem>
+              </div>
+              <div className={classes.item}>
+                <ListItem button onClick={() => router.push("/Cerrar Sesion")}>
+                  <Cancel color="primary" className={classes.icon} />
+                  <ListItemText primary={"Cerrar Sesion"} />
+                </ListItem>
+              </div>
+            </List>
+          </div>
+        </SwipeableDrawer>
+        {/* eeeeeeeeeeeeeeeeeeeeeee */}
+
         <Typography variant="h6" className={classes.logoLg}>
           Barme {console.log([user])}
         </Typography>
         <Typography variant="h6" className={classes.logoSm}>
           {user.username}
         </Typography>
+
         <div className={classes.search}>
           <Search />
           <InputBase placeholder="Search.." className={classes.input} />
@@ -120,6 +212,9 @@ export default function Navbar() {
           </Badge>
         </div>
       </Toolbar>
+      <Drawer anchor="left" open1={open1} onClose={() => setOpen1(false)}>
+        <h3>a l verdaga</h3>
+      </Drawer>
     </AppBar>
   );
 }
