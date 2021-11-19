@@ -27,6 +27,9 @@ import { useState, useEffect } from "react";
 import userService from "../../services/user";
 import { Box } from "@mui/system";
 import { Divider, List, ListItem, SwipeableDrawer } from "@mui/material";
+import { Logout } from "../../auth/AuthProvider";
+
+import { useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -108,7 +111,12 @@ export default function Navbar() {
       // noteService.setToken(user.token);
     }
   }, []);
+  const history = useHistory()
 
+  const handleLogout = () => {
+    window.localStorage.removeItem("loggedAppUser");
+    history.push("/login")
+  };
   const classes = useStyles({ open });
   return (
     <AppBar position="fixed">
@@ -129,7 +137,7 @@ export default function Navbar() {
         >
           <div>
             <Box textAlign="center" p={2}>
-              Bienvenido (usuario)
+              Bienvenido ({user.name})
             </Box>
             <Divider />
             <List>
@@ -169,7 +177,7 @@ export default function Navbar() {
                 </ListItem>
               </div>
               <div className={classes.item}>
-                <ListItem button onClick={() => router.push("/Cerrar Sesion")}>
+                <ListItem button onClick={() => handleLogout()}>
                   <Cancel color="primary" className={classes.icon} />
                   <ListItemText primary={"Cerrar Sesion"} />
                 </ListItem>
