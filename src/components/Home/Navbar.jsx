@@ -16,7 +16,6 @@ import {
   Cancel,
   EmojiEvents,
   EventAvailable,
-  Explore,
   Mail,
   Map,
   Notifications,
@@ -138,13 +137,6 @@ export default function Navbar() {
                 <ListItem button onClick={() => router.push("/Mi Perfil")}>
                   <Person color="primary" className={classes.icon} />
                   <ListItemText primary={"Mi Perfil"} />
-                </ListItem>
-              </div>
-
-              <div className={classes.item}>
-                <ListItem button onClick={() => router.push("/Explorar")}>
-                  <Explore color="primary" className={classes.icon} />
-                  <ListItemText primary={"Explorar"} />
                 </ListItem>
               </div>
 
