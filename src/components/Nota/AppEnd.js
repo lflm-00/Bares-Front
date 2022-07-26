@@ -31,20 +31,30 @@ const AppEnd = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
     try {
       const user = await loginService.login({
         username,
         password,
       });
-   
-      
-      window.localStorage.setItem("loggedAppUser", JSON.stringify(user));
+      if(user != 401){
 
-      setUser(user);
-      setUsername("");
-      setPassword("");
-      
+        window.localStorage.setItem("loggedAppUser", JSON.stringify(user));
+        setUser(user);
+      }else{
+        setErrorMessage(
+          <div>
+            <Alert severity="error">
+              <AlertTitle>
+                <h1>Error</h1>
+              </AlertTitle>
+              {user}
+            </Alert>
+          </div>
+        );
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 3000);
+      }
     } catch (e) {
       setErrorMessage(
         <div>
@@ -58,18 +68,17 @@ const AppEnd = () => {
       );
       setTimeout(() => {
         setErrorMessage(null);
-      }, 5000);
+      }, 1000);
     }
   };
 
   return (
     <div>
       <Notification message={errorMessage} />
-
-      {user ? (
+      {user  ? (
         <div>
         <div>
-          <button onClick={handleLogout}>Logout user</button>
+          {/* <button onClick={handleLogout}>Logout user</button> */}
         </div><Home /> </div>
       ) : (
         <LoginForm

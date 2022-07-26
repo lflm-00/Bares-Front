@@ -14,6 +14,7 @@ import PrivateRoute from "./auth/PrivateRoute";
 import NotFound from "./components/User/NotFound";
 import PublicRoute from "./auth/PublicRoute";
 import Developers from "./components/Developers";
+import UserProfile from "./components/User/UserProfile";
 
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
           <Route exact path="/" component={AppEnd} AppEnd />
 
           <PrivateRoute exact path="/home" component={Home} />
+          <PrivateRoute exact path="/Profile" component={UserProfile} />
           <PrivateRoute path="*" component={NotFound} />
 
 

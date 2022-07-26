@@ -29,7 +29,7 @@ import { Box } from "@mui/system";
 import { Divider, List, ListItem, SwipeableDrawer } from "@mui/material";
 import { Logout } from "../../auth/AuthProvider";
 
-import { useHistory} from 'react-router-dom'
+import { useHistory , Link} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -101,14 +101,15 @@ export default function Navbar() {
     const loggedUserJSON = window.localStorage.getItem("loggedAppUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-
-      setUser(user);
       const token = user.token;
-
       userService.getUser(token).then((initialUser) => {
+        console.log(initialUser);
         setUser(initialUser);
       });
       // noteService.setToken(user.token);
+    }else{
+      window.localStorage.removeItem("loggedAppUser");
+      history.push("/login")
     }
   }, []);
   const history = useHistory()
@@ -142,7 +143,7 @@ export default function Navbar() {
             <Divider />
             <List>
               <div className={classes.item}>
-                <ListItem button onClick={() => router.push("/Mi Perfil")}>
+                <ListItem button onClick={() => history.push("/Profile")}>
                   <Person color="primary" className={classes.icon} />
                   <ListItemText primary={"Mi Perfil"} />
                 </ListItem>
@@ -152,6 +153,12 @@ export default function Navbar() {
                 <ListItem button onClick={() => router.push("/Ubicaciones")}>
                   <Map color="primary" className={classes.icon} />
                   <ListItemText primary={"Ubicaciones"} />
+                </ListItem>
+              </div>
+              <div className={classes.item}>
+                <ListItem button onClick={() => history.push("/Home")}>
+                  <Map color="primary" className={classes.icon} />
+                  <ListItemText primary={"Home"} />
                 </ListItem>
               </div>
 
@@ -188,7 +195,7 @@ export default function Navbar() {
         {/* eeeeeeeeeeeeeeeeeeeeeee */}
 
         <Typography variant="h6" className={classes.logoLg}>
-          Barme {console.log([user])}
+        Bienvenido {open1 == false ? user.name: "" }
         </Typography>
         <Typography variant="h6" className={classes.logoSm}>
           {user.username}
@@ -212,7 +219,7 @@ export default function Navbar() {
           </Badge>
         </div>
       </Toolbar>
-      <Drawer anchor="left" open1={open1} onClose={() => setOpen1(false)}>
+      <Drawer anchor="left" open1={open1} onClose={() => setOpen1(false) ,console.log("clickme")}>
         <h3>a l verdaga</h3>
       </Drawer>
     </AppBar>

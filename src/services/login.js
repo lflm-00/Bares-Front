@@ -7,7 +7,8 @@ const login = async credentials => {
     const { data } = await axios.post(baseUrl, credentials)
     return data
   } catch (error) {
-    console.log([error.request.status]);
+    console.log([error])
+    return [error.request.status];
   }
 
 }
