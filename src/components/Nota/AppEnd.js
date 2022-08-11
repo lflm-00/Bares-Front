@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-
-
 import Notification from "../Notification";
 import loginService from "../../services/login";
 import LoginForm from "../LoginForm";
@@ -14,40 +12,33 @@ const AppEnd = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("");
 
-  const handleLogout = () => {
-    setUser("");
-    window.localStorage.removeItem("loggedAppUser");
-  };
-
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedAppUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
-
-      // noteService.setToken(user.token);
     }
   }, []);
+
+
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const user = await loginService.login({
-        username,
-        password,
-      });
-      if(user != 401){
-
+      const user = await loginService.login({username,password,});
+      console.log([user.token] );
+      if (user.token) {
         window.localStorage.setItem("loggedAppUser", JSON.stringify(user));
         setUser(user);
-      }else{
+       console.log([user[0]])
+      } else {
         setErrorMessage(
           <div>
             <Alert severity="error">
               <AlertTitle>
                 <h1>Error</h1>
               </AlertTitle>
-              {user}
+              {[user[0].response.data.error]}
             </Alert>
           </div>
         );
@@ -62,7 +53,7 @@ const AppEnd = () => {
             <AlertTitle>
               <h1>Error</h1>
             </AlertTitle>
-            {console.log(e)}
+            {[e.data]}
           </Alert>
         </div>
       );
@@ -75,11 +66,10 @@ const AppEnd = () => {
   return (
     <div>
       <Notification message={errorMessage} />
-      {user  ? (
+      {user ? (
         <div>
-        <div>
-          {/* <button onClick={handleLogout}>Logout user</button> */}
-        </div><Home /> </div>
+          <Home />
+        </div>
       ) : (
         <LoginForm
           username={username}
