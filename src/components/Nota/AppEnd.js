@@ -26,11 +26,9 @@ const AppEnd = () => {
     event.preventDefault();
     try {
       const user = await loginService.login({username,password,});
-      console.log([user.token] );
       if (user.token) {
         window.localStorage.setItem("loggedAppUser", JSON.stringify(user));
         setUser(user);
-       console.log([user[0]])
       } else {
         setErrorMessage(
           <div>
@@ -53,7 +51,7 @@ const AppEnd = () => {
             <AlertTitle>
               <h1>Error</h1>
             </AlertTitle>
-            {[e.data]}
+            {console.log(e[0])}
           </Alert>
         </div>
       );
